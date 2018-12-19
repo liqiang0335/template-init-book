@@ -49,7 +49,6 @@ function decorator(content) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://www.jsgaotie.com/page/note/base/dist/base.bundle.css"/>
-    <link rel="stylesheet" href="./dist/index.bundle.css" />
   </head>
   <body>
   <div id="app">${content}</div>
