@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const hljs = require("highlight.js");
 
-const md = require("markdown-it")({
+const options = {
   html: true,
   linkify: true,
   highlight(str, lang) {
@@ -17,7 +17,13 @@ const md = require("markdown-it")({
       '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + "</code></pre>"
     );
   }
-});
+};
+
+const md = require("markdown-it")(options);
+md.use(require("markdown-it-attrs"));
+md.use(require("markdown-it-highlight-lines"));
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 /**
@@ -48,7 +54,7 @@ function decorator(content) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="https://www.jsgaotie.com/page/note/base/dist/base.bundle.css"/>
+    <link rel="stylesheet" href="/page/note/base/dist/base.bundle.css"/>
   </head>
   <body>
   <div id="app">${content}</div>
