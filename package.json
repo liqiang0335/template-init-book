@@ -1,0 +1,16 @@
+{
+  "name": "book",
+  "version": "1.0.0",
+  "description": "book",
+  "main": "",
+  "scripts": {},
+  "author": "liqiang0335@qq.com",
+  "license": "ISC",
+  "devDependencies": {
+    "highlight.js": "latest",
+    "markdown-it": "latest",
+    "markdown-it-attrs": "latest",
+    "markdown-it-container": "latest",
+    "markdown-it-highlight-lines": "latest"
+  }
+}
