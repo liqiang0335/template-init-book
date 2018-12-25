@@ -21,7 +21,6 @@ const options = {
 
 const md = require("markdown-it")(options);
 md.use(require("markdown-it-attrs"));
-md.use(require("markdown-it-highlight-lines"));
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
@@ -58,6 +57,8 @@ function decorator(content) {
   </head>
   <body>
   <div id="app">${content}</div>
+  <script src="https://cdn.bootcss.com/react/16.6.3/umd/react.production.min.js"></script>
+  <script src="https://cdn.bootcss.com/react-dom/16.6.3/umd/react-dom.production.min.js"></script>
   <script src="./dist/index.bundle.js"></script>
   </body>
   </html>
