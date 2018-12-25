@@ -10,6 +10,6 @@
     "highlight.js": "latest",
     "markdown-it": "latest",
     "markdown-it-attrs": "latest",
-    "markdown-it-container": "latest",
+    "markdown-it-container": "latest"
   }
 }
