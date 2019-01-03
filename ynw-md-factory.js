@@ -63,6 +63,7 @@ function addWrapper(contents, { hasDistDir }) {
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no" />
     <title>Document</title>
     <link rel="stylesheet" href="https://www.jsgaotie.com/page/note/base/dist/base.bundle.css"/>
   </head>
