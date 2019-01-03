@@ -51,8 +51,8 @@ md.use(require("markdown-it-attrs"));
 function addWrapper(contents, { hasDistDir }) {
   //是否包含dist文件夹
   const scriptTag = hasDistDir
-    ? `<script src="https://cdn.bootcss.com/react/16.6.3/umd/react.production.min.js"></script>
-    <script src="https://cdn.bootcss.com/react-dom/16.6.3/umd/react-dom.production.min.js"></script>
+    ? `<script src="https://cdn.bootcss.com/react/16.7.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
     <script src="./dist/index.bundle.js"></script>`
     : "";
 
