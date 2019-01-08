@@ -1,3 +1,7 @@
+/**
+ *  cnpm i --save-dev highlight.js markdown-it markdown-it-attrs
+ */
+
 const path = require("path");
 const fs = require("fs");
 const hljs = require("highlight.js");
@@ -30,11 +34,12 @@ md.use(require("markdown-it-attrs"));
  */
 (function() {
   const filePath = process.argv[2];
+  const name = path.basename(filePath).replace(/\.\w+$/, "");
 
   const dirname = path.dirname(filePath);
   const resolve = name => path.join(dirname, name);
   const hasDistDir = fs.existsSync(resolve("dist"));
-  const TARGET_NAME = "index.html";
+  const TARGET_NAME = name + ".html";
 
   //读取 markdown
   const source = fs.readFileSync(filePath, "utf-8");
@@ -51,8 +56,8 @@ md.use(require("markdown-it-attrs"));
 function addWrapper(contents, { hasDistDir }) {
   //是否包含dist文件夹
   const scriptTag = hasDistDir
-    ? `<script src="https://cdn.bootcss.com/react/16.7.0/umd/react.production.min.js"></script>
-    <script src="https://cdn.bootcss.com/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
+    ? `<script src="https://cdn.bootcss.com/react/16.6.3/umd/react.production.min.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.6.3/umd/react-dom.production.min.js"></script>
     <script src="./dist/index.bundle.js"></script>`
     : "";
 
