@@ -71,6 +71,7 @@ function addWrapper(contents, { hasDistDir }) {
     <meta name="format-detection" content="telephone=no" />
     <title>Document</title>
     <link rel="stylesheet" href="https://www.jsgaotie.com/page/note/base/dist/base.bundle.css"/>
+    <script src="https://www.jsgaotie.com/page/note/base/dist/base.bundle.js"></script>
   </head>
   <body>
   <div id="app">${contents}</div>
