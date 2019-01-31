@@ -5,6 +5,7 @@
 const path = require("path");
 const fs = require("fs");
 const hljs = require("highlight.js");
+const CONFIG = require("./ynw-md-factory.config");
 
 const options = {
   html: true,
@@ -27,42 +28,43 @@ const md = require("markdown-it")(options);
 md.use(require("markdown-it-attrs"));
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
 /**
  * MAIN
  */
-(function() {
+function Main() {
   const filePath = process.argv[2];
   const name = path.basename(filePath).replace(/\.\w+$/, "");
-
   const dirname = path.dirname(filePath);
   const resolve = name => path.join(dirname, name);
   const hasDistDir = fs.existsSync(resolve("dist"));
-  const TARGET_NAME = name + ".html";
-
-  //读取 markdown
   const source = fs.readFileSync(filePath, "utf-8");
   let contents = md.render(source);
-  contents = addCustom(contents);
-  contents = addWrapper(contents, { hasDistDir });
 
-  fs.writeFileSync(resolve(TARGET_NAME), contents);
-})();
+  const context = {
+    name,
+    hasDistDir,
+    filePath,
+    resolve,
+    CONFIG,
+    source,
+    contents
+  };
+
+  contents = replaceContent(context);
+  contents = addWrapper(context);
+  fs.writeFileSync(resolve(name + ".html"), contents);
+}
+
+Main();
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-function addWrapper(contents, { hasDistDir }) {
-  //是否包含dist文件夹
-  const scriptTag = hasDistDir
-    ? `<script src="https://cdn.bootcss.com/react/16.7.0/umd/react.production.min.js"></script>
-    <script src="https://cdn.bootcss.com/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
-    <script src="./dist/index.bundle.js"></script>`
-    : "";
-
-  return `
-  <!DOCTYPE html>
+function addWrapper(context) {
+  const { contents, CONFIG } = context;
+  const footer = createFootScriptTags(context);
+  const header = CONFIG.headScriptTags.join("");
+  return `<!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -70,21 +72,39 @@ function addWrapper(contents, { hasDistDir }) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="format-detection" content="telephone=no" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://www.jsgaotie.com/page/note/base/dist/base.bundle.css"/>
-    <script src="https://www.jsgaotie.com/page/note/base/dist/base.bundle.js"></script>
+    ${header}
   </head>
   <body>
   <div id="app">${contents}</div>
-  ${scriptTag}
+  ${footer}
   </body>
   </html>
   `;
 }
 
-function addCustom(contents) {
-  contents = contents.replace(
-    /<li>(.+?)[:：](.+<\/li>)/g,
-    `<li><span class="li-text">$1</span><span class="li-colon">:</span>$2</li>`
+function createFootScriptTags(context) {
+  const { hasDistDir, filePath, CONFIG } = context;
+  if (!hasDistDir) {
+    return "";
+  }
+
+  const footUserTags = CONFIG.footUserTags
+    .map(item => {
+      const { reg, value } = item;
+      return reg.test(filePath) ? value : "";
+    })
+    .join("");
+
+  return (
+    CONFIG.footScriptTags +
+    footUserTags +
+    `<script src="./dist/index.bundle.js"></script>`
   );
-  return contents;
+}
+
+function replaceContent({ contents, CONFIG }) {
+  CONFIG.replaceContent.forEach(item => {
+    const { reg, value } = item;
+    contents = contents.replace(reg, value);
+  });
 }
